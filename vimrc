@@ -22,6 +22,7 @@ Plugin 'vim-scripts/AutoClose'
 Plugin 'scrooloose/syntastic'
 Plugin 'nvie/vim-flake8'
 Plugin 'tommcdo/vim-exchange'
+Plugin 'flazz/vim-colorschemes'
 
 call vundle#end()            " required
 " Vundle -----------------------------------------------------------------------
@@ -38,7 +39,7 @@ match ExtraWhitespace /\s\+$\| \+\ze\t/
 autocmd BufWritePre * :%s/\s\+$//e
 
 " color scheme
-color leet2
+color molokai
 
 " sessions
 noremap <F1> :mksession! .vim.session <cr>
@@ -206,3 +207,7 @@ set backspace=2
 au WinLeave * set nocursorline
 au WinEnter * set cursorline
 set cursorline
+
+" add yaml stuffs
+au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
