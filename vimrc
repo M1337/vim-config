@@ -1,126 +1,208 @@
-"vundle
-set nocompatible
-filetype off
+" Vundle -----------------------------------------------------------------------
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
+" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-"git interface
-Plugin 'tpope/vim-fugitive'
-"filesystem
-Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/nerdtree.git'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'kien/ctrlp.vim' 
-
-"html
-"  isnowfy only compatible with python not python3
-Plugin 'isnowfy/python-vim-instant-markdown'
-Plugin 'jtratner/vim-flavored-markdown'
-Plugin 'suan/vim-instant-markdown'
-Plugin 'nelstrom/vim-markdown-preview'
-"python sytax checker
-Plugin 'nvie/vim-flake8'
-Plugin 'vim-scripts/Pydiction'
-Plugin 'vim-scripts/indentpython.vim'
-Plugin 'scrooloose/syntastic'
-
-"auto-completion stuff
-"Plugin 'klen/python-mode'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'klen/rope-vim'
-"Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
-""code folding
+Plugin 'davidhalter/jedi-vim'
+Plugin 'benmills/vimux'
 Plugin 'tmhedberg/SimpylFold'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-scripts/vis'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'sjl/gundo.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'vim-scripts/AutoClose'
+Plugin 'scrooloose/syntastic'
+Plugin 'nvie/vim-flake8'
+Plugin 'tommcdo/vim-exchange'
 
-"Colors!!!
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'jnurmine/Zenburn'
+call vundle#end()            " required
+" Vundle -----------------------------------------------------------------------
 
-call vundle#end()
-
-filetype plugin indent on    " enables filetype detection
-let g:SimpylFold_docstring_preview = 1
-
-"autocomplete
-let g:ycm_autoclose_preview_window_after_completion=1
-
-"custom keys
-let mapleader=" "
-map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"
-call togglebg#map("<F5>")
-"colorscheme zenburn
-"set guifont=Monaco:h14
-
-let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
-
-"I don't like swap files
-set noswapfile
-
-"turn on numbering
-set nu
-
-"python with virtualenv support
-py << EOF
-import os.path
-import sys
-import vim
-if 'VIRTUA_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  sys.path.insert(0, project_base_dir)
-  activate_this = os.path.join(project_base_dir,'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
-
-"it would be nice to set tag files by the active virtualenv here
-":set tags=~/mytags "tags for ctags and taglist
-"omnicomplete
-autocmd FileType python set omnifunc=pythoncomplete#Complete
-
-"------------Start Python PEP 8 stuff----------------
-" Number of spaces that a pre-existing tab is equal to.
-au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
-
-"spaces for indents
-au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
-au BufRead,BufNewFile *.py,*.pyw set expandtab
-au BufRead,BufNewFile *.py set softtabstop=4
-
-" Use the below highlight group when displaying bad whitespace is desired.
-highlight BadWhitespace ctermbg=red guibg=red
-
-" Display tabs at the beginning of a line in Python mode as bad.
-au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-" Make trailing whitespace be flagged as bad.
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" Wrap text after a certain number of characters
-au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
-
-" Use UNIX (\n) line endings.
-au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
-
-" Set the default file encoding to UTF-8:
-set encoding=utf-8
-
-" For full syntax highlighting:
-let python_highlight_all=1
+" file type and syntax highlighting on
+filetype plugin indent on
 syntax on
 
-" Keep indentation level from previous line:
-autocmd FileType python set autoindent
+" white spaces
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+highlight ExtraWhitespace ctermbg=cyan guibg=cyan
+autocmd InsertLeave * redraw!
+match ExtraWhitespace /\s\+$\| \+\ze\t/
+autocmd BufWritePre * :%s/\s\+$//e
 
-" make backspaces more powerfull
-set backspace=indent,eol,start
+" color scheme
+color leet2
+
+" sessions
+noremap <F1> :mksession! .vim.session <cr>
+noremap <F2> :source .vim.session <cr>
+noremap <F3> :! rm .vim.session <cr>
+
+" for auto read to auto load
+au FocusGained,BufEnter * :silent! !
+au FocusLost,WinLeave * :silent! w
+
+" Spellchecking
+set spell
+setlocal spell spelllang=en_gb
+
+" specific settings
+set fo+=t
+set t_Co=256
+set nocursorline
+set title
+set bs=2
+set noautoindent
+set ruler
+set shortmess=aoOTI
+set nocompatible
+set showmode
+set splitbelow
+set nomodeline
+set showcmd
+set showmatch
+set tabstop=2
+set shiftwidth=2
+set expandtab
+set cinoptions=(0,m1,:1
+"set tw=80
+set formatoptions=tcqro2
+set smartindent
+set laststatus=2
+set nomodeline
+set clipboard=unnamed
+set softtabstop=2
+set showtabline=1
+set sidescroll=5
+set scrolloff=4
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set foldmethod=marker
+set ttyfast
+set history=10000
+set hidden
+set colorcolumn=81
+set number
+set complete=.,w,b,u,t
+set completeopt=longest,menuone,preview
+set noswapfile
+set foldlevelstart=0
+set wildmenu
+set wildmode=list:longest,full
+set nowrap
+set statusline=%{getcwd()}\/\%f%=%-14.(%l,%c%V%)\ %P
+set autoread
+
+" backup
+set undodir=~/.vim/tmp/undo//
+set backupdir=~/.vim/tmp/backup//
+set directory=~/.vim/tmp/swap//
+
+" make directories automatically if they don't already exist
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), "p")
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), "p")
+endif
+
+" close brackets
+"":inoremap ( ()<Esc>i
+"":inoremap < <><Esc>i
+"":inoremap { {}<Esc>i
+"":inoremap [ []<Esc>i
+"":inoremap " ""<Esc>i
+"":inoremap ' ''<Esc>i
+"":inoremap ` ``<Esc>i
 
 
-"Folding based on indentation:
-autocmd FileType python set foldmethod=indent
-"use space to open folds
-nnoremap <space> za 
-"----------Stop python PEP 8 stuff--------------
+" Modify searching
+set hlsearch
+set ignorecase
+set smartcase
+set incsearch
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+"Function for relative line numbering etc leader n
 
-"js stuff"
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+    set norelativenumber
+  else
+    set relativenumber
+    set nonumber
+  endif
+endfunc
+
+nnoremap <leader>n :call NumberToggle()<cr>
+
+"Show leader and change leader
+set showcmd
+"let mapleader=","
+map <Space> <Leader>
+
+" moving up and down work as you would expect
+nnoremap <silent> j gj
+nnoremap <silent> k gk
+
+" close NERDTree after a file is opened
+let g:NERDTreeQuitOnOpen=0
+" show hidden files in NERDTree
+let NERDTreeShowHidden=1
+" Toggle NERDTree
+nnoremap <silent> <leader>k :NERDTreeToggle<cr>
+" expand to the path of the file in the current buffer
+nnoremap  <silent> <leader>y :NERDTreeFind<cr>
+nnoremap <leader>s :w<cr>
+
+" Gundo Mappings
+nnoremap <leader>u :GundoToggle<CR>
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsListSnippets = "<leader><tab>"
+" Line numbering
+set nu
+" Remove highlight
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+"Function for relative line numbering etc leader n
+
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+    set norelativenumber
+  else
+    set relativenumber
+    set nonumber
+  endif
+endfunc
+
+nnoremap <leader>n :call NumberToggle()<cr>
+
+"backspace fix
+set backspace=2
+
+" Show me the indentation level
+:set list lcs=tab:\|\
+
+" cursorline
+au WinLeave * set nocursorline
+au WinEnter * set cursorline
+set cursorline
