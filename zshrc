@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=~/.local/bin:/snap/bin:/usr/sandbox/:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games:/usr/share/games:/usr/local/sbin:/usr/sbin:/sbin:$PATH
 # Path to your oh-my-zsh installation.
-export ZSH="/home/matthias/.oh-my-zsh"
+export ZSH="/home/molberzx/.oh-my-zsh"
 export TERM="xterm-256color"""
 
 # Set name of the theme to load --- if set to "random", it will
@@ -107,7 +107,7 @@ PS1="%F{cyan} %~ >%F{blue}> %F{white}"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux nmap man vi-mode vagrant ansible)
+plugins=(git tmux nmap man vi-mode vagrant ansible taskwarrior)
 
 source $ZSH/oh-my-zsh.sh
 

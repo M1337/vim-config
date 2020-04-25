@@ -6,26 +6,38 @@ filetype off                  " required
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'scrooloose/nerdtree.git'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'benmills/vimux'
-Plugin 'tmhedberg/SimpylFold'
-Plugin 'tpope/vim-surround'
-Plugin 'vim-scripts/vis'
-Plugin 'easymotion/vim-easymotion'
-Plugin 'sjl/gundo.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'vim-scripts/AutoClose'
-Plugin 'scrooloose/syntastic'
-Plugin 'nvie/vim-flake8'
-Plugin 'tommcdo/vim-exchange'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'jalvesaq/Nvim-R'
-Plugin 'ycm-core/YouCompleteMe'
 
+Plugin 'Shougo/unite.vim'
+Plugin 'SirVer/ultisnips'
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'benmills/vimux'
+Plugin 'blindFS/vim-taskwarrior'
+Plugin 'chrisbra/csv.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'ervandew/supertab'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'honza/vim-snippets'
+Plugin 'jalvesaq/Nvim-R'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'lervag/vimtex'
+Plugin 'nvie/vim-flake8'
+Plugin 'scrooloose/nerdtree.git'
+Plugin 'scrooloose/syntastic'
+Plugin 'sjl/gundo.vim'
+Plugin 'tmhedberg/SimpylFold'
+Plugin 'tommcdo/vim-exchange'
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-scripts/AutoClose'
+Plugin 'vim-scripts/Conque-Shell'
+Plugin 'vim-scripts/ExtractMatches'
+Plugin 'vim-scripts/LanguageTool'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'vim-scripts/vis'
+Plugin 'ycm-core/YouCompleteMe'
+Plugin 'chikamichi/mediawiki.vim'
 call vundle#end()            " required
 " Vundle -----------------------------------------------------------------------
 
@@ -47,14 +59,16 @@ color molokai
 noremap <F1> :mksession! .vim.session <cr>
 noremap <F2> :source .vim.session <cr>
 noremap <F3> :! rm .vim.session <cr>
-
+noremap <F4> :so ~/.vimrc<cr>
+noremap <F5> :B !xargs -I {} realpath --relative-to \. {}<cr>
+command -range RelativePathTo execute "!realpath --relative-to . " .  @*
 " for auto read to auto load
 au FocusGained,BufEnter * :silent! !
 au FocusLost,WinLeave * :silent! w
 
 " Spellchecking
 set spell
-setlocal spell spelllang=en_gb
+setlocal spell spelllang=en_gb,de_de
 
 " specific settings
 set fo+=t
@@ -89,7 +103,7 @@ set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-set foldmethod=marker
+set foldmethod=indent
 set ttyfast
 set history=10000
 set hidden
@@ -99,6 +113,7 @@ set complete=.,w,b,u,t
 set completeopt=longest,menuone,preview
 set noswapfile
 set foldlevelstart=0
+set foldlevel=99
 set wildmenu
 set wildmode=list:longest,full
 set nowrap
@@ -109,6 +124,8 @@ set autoread
 set undodir=~/.vim/tmp/undo//
 set backupdir=~/.vim/tmp/backup//
 set directory=~/.vim/tmp/swap//
+set undolevels=1000         " How many undos
+set undoreload=10000        " number of lines to save for und
 
 " make directories automatically if they don't already exist
 if !isdirectory(expand(&undodir))
@@ -164,12 +181,19 @@ nnoremap <silent> k gk
 let g:NERDTreeQuitOnOpen=0
 " show hidden files in NERDTree
 let NERDTreeShowHidden=1
+" ignore pyc
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
 " Toggle NERDTree
 nnoremap <silent> <leader>k :NERDTreeToggle<cr>
 " expand to the path of the file in the current buffer
 nnoremap  <silent> <leader>y :NERDTreeFind<cr>
 nnoremap <leader>s :w<cr>
+:set list lcs=tab:\|\
 
+
+
+" Gundo Mappings
+nnoremap <leader>u :GundoToggle<CR>
 " Gundo Mappings
 nnoremap <leader>u :GundoToggle<CR>
 
@@ -184,6 +208,41 @@ let g:UltiSnipsListSnippets = "<leader><tab>"
 set nu
 " Remove highlight
 nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+" Syntastic rnoweb Knitr support
+let g:syntastic_rnoweb_checkers = ['tex/chktex', 'text/language_check', 'r/lintr']
+let g:syntastic_text_language_check_args = '--language=en-US'
+let g:syntastic_enable_r_lintr_checker = 1
+
+"Language tools config"
+let g:languagetool_jar='$HOME/LanguageTool-4.2/languagetool-commandline.jar'
+let g:languagetool_lang='en-US'
+
+"Vimtex pdf viewer Zathura
+let g:vimtex_view_method = 'zathura'
+
+
+" Extra Options for Autocompletion
+let g:ycm_autoclose_preview_window_after_completion=1
+map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
+
+" YCM compatible with NvimR
+"let g:YcmShowDetailedDiagnostic = ""
+noremap <leader>ä :YcmShowDetailedDiagnostic<CR>
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsSnippetDirectories = ['~/.vim/UltiSnips', 'UltiSnips']
+let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsListSnippets = "<leader><tab>"
+
 
 "Function for relative line numbering etc leader n
 
@@ -213,3 +272,19 @@ set cursorline
 " add yaml stuffs
 au! BufNewFile,BufReadPost *.{yaml,yml} set filetype=yaml foldmethod=indent
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
+" PEP8 for Python
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \| set softtabstop=4
+    \| set shiftwidth=4
+    \| set textwidth=79
+    \| set expandtab
+    \| set autoindent
+    \| set fileformat=unix
+
+" Full stack HTML
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \| set softtabstop=2
+    \| set shiftwidth=2
