@@ -23,6 +23,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'jalvesaq/Nvim-R'
 Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'lervag/vimtex'
+Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'nvie/vim-flake8'
 Plugin 'pearofducks/ansible-vim'
 Plugin 'scrooloose/nerdtree.git'
@@ -33,12 +34,13 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/AutoClose'
-Plugin 'vim-scripts/Conque-Shell'
+Plugin 'lrvick/Conque-Shell'
 Plugin 'vim-scripts/ExtractMatches'
 Plugin 'vim-scripts/LanguageTool'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'vim-scripts/vis'
 Plugin 'ycm-core/YouCompleteMe'
+Plugin 'Yggdroot/indentLine'
 call vundle#end()            " required
 " Vundle -----------------------------------------------------------------------
 
@@ -54,7 +56,9 @@ match ExtraWhitespace /\s\+$\| \+\ze\t/
 autocmd BufWritePre * :%s/\s\+$//e
 
 " color scheme
-color molokai
+" color molokai
+set background=light
+colorscheme PaperColor
 
 " sessions
 noremap <F1> :mksession! .vim.session <cr>
@@ -69,7 +73,7 @@ au FocusLost,WinLeave * :silent! w
 
 " Spellchecking
 set spell
-setlocal spell spelllang=en_gb,de_de
+setlocal spell spelllang=en_gb,de
 
 " specific settings
 set fo+=t
@@ -90,6 +94,7 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set cinoptions=(0,m1,:1
+set conceallevel=0
 "set tw=80
 set formatoptions=tcqro2
 set smartindent
@@ -191,10 +196,10 @@ nnoremap  <silent> <leader>y :NERDTreeFind<cr>
 nnoremap <leader>s :w<cr>
 :set list lcs=tab:\|\
 
+" Conque_Term
+let g:ConqueTerm_SendFileKey = '<leader> f'
 
 
-" Gundo Mappings
-nnoremap <leader>u :GundoToggle<CR>
 " Gundo Mappings
 nnoremap <leader>u :GundoToggle<CR>
 
@@ -221,6 +226,7 @@ let g:languagetool_lang='en-US'
 
 "Vimtex pdf viewer Zathura
 let g:vimtex_view_method = 'zathura'
+let g:tex_conceal = ''
 
 
 " Extra Options for Autocompletion
@@ -289,3 +295,13 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \| set softtabstop=2
     \| set shiftwidth=2
+
+"python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+"  project_base_dir = os.environ['VIRTUAL_ENV']
+"  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+"  execfile(activate_this, dict(__file__=activate_this))
+"EOF
